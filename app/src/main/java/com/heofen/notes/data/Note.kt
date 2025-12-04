@@ -1,28 +1,39 @@
 package com.heofen.notes.data
 
-import android.icu.text.CaseMap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
-@Entity()
-class Note(
+@Entity(tableName = "notes")
+data class Note(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val title: String?,
     val text: String?,
-    val createTime: Instant,
-    val editTime: Instant? = null,
+    val createTime: Long,
+    val editTime: Long? = null,
     val folderId: Int? = null
 ) {
-    fun getFormattedTime(time: Instant?): String {
-        return time?.let {
-            DateTimeFormatter.ofPattern("HH:mm dd.MM.yy")
-                .format(java.time.LocalDateTime.ofInstant(it, java.time.ZoneId.systemDefault()))
-        } ?: ""
+    fun getFormattedCreateTime(): String {
+        return formatTime(createTime)
+    }
+
+    fun getFormattedEditTime(): String? {
+        return editTime?.let { formatTime(it) }
+    }
+
+    private fun formatTime(timestamp: Long): String {
+        val instant = Instant.ofEpochMilli(timestamp)
+        val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+        return DateTimeFormatter.ofPattern("HH:mm dd.MM.yy").format(dateTime)
+    }
+
+    fun getDisplayTime(): String {
+        return getFormattedEditTime() ?: getFormattedCreateTime()
     }
 }
 
