@@ -7,9 +7,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.heofen.notes.R
 import com.heofen.notes.data.Folder
+import com.heofen.notes.ui.theme.NotesTheme
 
 @Composable
 fun NotesNavigationDrawer(
@@ -117,4 +119,35 @@ private fun FolderDrawerItem(
         },
         modifier = Modifier.padding(horizontal = 12.dp)
     )
+}
+
+@Preview
+@Composable
+fun DrawerContentPreview() {
+    NotesTheme {
+        DrawerContent(
+            folders = listOf(
+                Folder(1, "Работа"),
+                Folder(2, "Личное"),
+                Folder(3, "Проекты")
+            ),
+            selectedFolderId = 1,
+            onFolderSelected = {},
+            onAddFolder = {},
+            onDeleteFolder = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun FolderDrawerItemPreview() {
+    NotesTheme {
+        FolderDrawerItem(
+            folder = Folder(1, "Работа"),
+            isSelected = true,
+            onFolderClick = {},
+            onDeleteClick = {}
+        )
+    }
 }

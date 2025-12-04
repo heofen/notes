@@ -8,6 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.heofen.notes.R
 import com.heofen.notes.data.Note
@@ -16,6 +18,7 @@ import com.heofen.notes.ui.components.NotesNavigationDrawer
 import com.heofen.notes.ui.dialogs.AddFolderDialog
 import com.heofen.notes.ui.dialogs.MoveFolderDialog
 import com.heofen.notes.ui.dialogs.NoteOptionsDialog
+import com.heofen.notes.ui.theme.NotesTheme
 import com.heofen.notes.viewmodel.NotesViewModel
 import kotlinx.coroutines.launch
 
@@ -166,5 +169,55 @@ private fun getScreenTitle(selectedFolderId: Int?, folders: List<com.heofen.note
         null -> stringResource(R.string.all_notes)
         -1 -> stringResource(R.string.without_folder)
         else -> folders.find { it.id == selectedFolderId }?.name ?: stringResource(R.string.notes)
+    }
+}
+
+@Preview
+@Composable
+fun NotesTopBarPreview() {
+    NotesTheme {
+        NotesTopBar(
+            title = "Все заметки",
+            onMenuClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun NotesContentPreview() {
+    NotesTheme {
+        NotesContent(
+            notes = listOf(
+                Note(
+                    id = 1,
+                    title = "Заметка 1",
+                    text = "Текст заметки",
+                    createTime = System.currentTimeMillis()
+                ),
+                Note(
+                    id = 2,
+                    title = "Заметка 2",
+                    text = "Еще одна заметка",
+                    createTime = System.currentTimeMillis()
+                )
+            ),
+            paddingValues = PaddingValues(0.dp),
+            onNoteClick = {},
+            onNoteLongClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun NotesContentEmptyPreview() {
+    NotesTheme {
+        NotesContent(
+            notes = emptyList(),
+            paddingValues = PaddingValues(0.dp),
+            onNoteClick = {},
+            onNoteLongClick = {}
+        )
     }
 }
