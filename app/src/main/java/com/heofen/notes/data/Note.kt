@@ -1,6 +1,7 @@
 package com.heofen.notes.data
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import java.time.format.DateTimeFormatter
@@ -8,7 +9,17 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-@Entity(tableName = "notes")
+@Entity(
+    tableName = "notes",
+    foreignKeys = [
+        ForeignKey(
+            entity = Folder::class,
+            parentColumns = ["id"],
+            childColumns = ["folderId"],
+            onDelete = ForeignKey.SET_NULL
+        )
+    ]
+)
 data class Note(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

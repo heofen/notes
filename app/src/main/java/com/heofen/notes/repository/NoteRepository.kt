@@ -27,8 +27,4 @@ class NoteRepository(private val noteDao: NoteDao) {
     }
 
     suspend fun deleteNote(note: Note) = noteDao.delete(note)
-
-    suspend fun moveNotesFromFolderToNull(folderId: Int) {
-        noteDao.moveNotesFromFolderToNull(folderId)
-    }
 }

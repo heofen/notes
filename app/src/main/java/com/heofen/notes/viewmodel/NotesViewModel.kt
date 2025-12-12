@@ -107,7 +107,6 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deleteFolder(folder: Folder) {
         viewModelScope.launch {
-            noteRepository.moveNotesFromFolderToNull(folder.id)
             folderRepository.deleteFolder(folder)
         }
     }

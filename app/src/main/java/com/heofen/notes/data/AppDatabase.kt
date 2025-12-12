@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [Note::class, Folder::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -23,10 +23,11 @@ abstract class AppDatabase : RoomDatabase() {
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "notes_database"
-                ).build()
+                                context.applicationContext,
+                                AppDatabase::class.java,
+                                "notes_database"
+                            ).fallbackToDestructiveMigration(false)
+                    .build()
                 INSTANCE = instance
                 instance
             }

@@ -35,7 +35,4 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes WHERE id = :noteId")
     suspend fun getNoteById(noteId: Int): Note?
-
-    @Query("UPDATE notes SET folderId = NULL WHERE folderId = :folderId")
-    suspend fun moveNotesFromFolderToNull(folderId: Int)
 }
